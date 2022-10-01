@@ -38,7 +38,7 @@
         <goal-card
             v-for="(goal, index) in goals"
             :key="index"
-            :goal="goal"
+            :goalIndex="index"
         />
       </v-col>
     </v-row>
@@ -47,6 +47,9 @@
 
 <script>
   import GoalCard from "@/components/GoalCard";
+  import {mapActions, mapGetters} from "vuex";
+  import {ADD_GOAL} from "@/store/action-types";
+  import {GET_GOALS} from "@/store/get-types";
   export default {
     name: 'HelloWorld',
 
@@ -55,22 +58,27 @@
     data: () => ({
       newGoalTitle: '',
       newGoalDesc: '',
-      goals: []
     }),
 
     computed: {
+      ...mapGetters({
+        goals: GET_GOALS
+      }),
       validInput () {
         return this.newGoalTitle && this.newGoalDesc
       }
     },
 
     methods: {
+      ...mapActions({
+        addGoal: ADD_GOAL
+      }),
       addNewRule () {
         const newGoal = {
           title: this.newGoalTitle,
           description: this.newGoalDesc
         }
-        this.goals.push(newGoal)
+        this.addGoal(newGoal)
         this.resetInputs()
       },
       resetInputs () {

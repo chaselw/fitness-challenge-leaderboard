@@ -6421,6 +6421,11 @@ vuetify@^2.6.0:
   resolved "https://tangodev.jfrog.io/tangodev/api/npm/tcnpmvirtual/vuetify/-/vuetify-2.6.10.tgz#b86cd7a97bf8cd3828a72c349795b5b3c539ebc2"
   integrity sha512-fgUeRDDCwYkwu6WGEEKGe7IdfzOsXJCZGrqkn1pcS2ycuoDL8mR2/dejH5iFNnBY6MnsT365PAGn0J+9otjfQg==
 
+vuex@^v3.6.2:
+  version "3.6.2"
+  resolved "https://tangodev.jfrog.io/tangodev/api/npm/tcnpmvirtual/vuex/-/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
+  integrity sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==
+
 watchpack@^2.4.0:
   version "2.4.0"
   resolved "https://tangodev.jfrog.io/tangodev/api/npm/tcnpmvirtual/watchpack/-/watchpack-2.4.0.tgz#fa33032374962c78113f93c7f2fb4c54c9862a5d"

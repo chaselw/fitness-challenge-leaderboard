@@ -6,10 +6,10 @@
             cols="8"
         >
           <v-card-title>
-            {{ goalTitle }}
+            {{ goal.title }}
           </v-card-title>
           <v-card-subtitle>
-            {{ goalDescription }}
+            {{ goal.description }}
           </v-card-subtitle>
         </v-col>
         <v-col
@@ -25,15 +25,15 @@
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn
-              @click="editGoal"
-              elevation="0"
-              class="transparent pa-1 mr-2"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
-          </v-btn>
+<!--          <v-btn-->
+<!--              @click="removeGoal"-->
+<!--              elevation="0"-->
+<!--              class="transparent pa-1 mr-2"-->
+<!--          >-->
+<!--            <v-icon>-->
+<!--              mdi-close-->
+<!--            </v-icon>-->
+<!--          </v-btn>-->
         </v-col>
       </v-row>
 
@@ -71,12 +71,15 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+import {GET_GOALS} from "@/store/get-types";
+
 export default {
   name: 'GoalCard',
 
   props: {
-    goal: {
-      type: Object,
+    goalIndex: {
+      type: Number,
       required: true
     }
   },
@@ -84,25 +87,28 @@ export default {
   data () {
     return {
       editing: false,
-      goalTitle: this.goal.title,
-      goalDescription: this.goal.description
     }
   },
 
   computed: {
+    ...mapGetters({
+      goals: GET_GOALS
+    }),
     validInput () {
       return this.goalTitle && this.goalDescription
+    },
+    goal () {
+      return this.goals.at(this.goalIndex)
     }
   },
 
   methods: {
     editGoal () {
-      console.log(this.editing)
       this.editing = true
     },
     updateGoal () {
       this.editing = false
-    },
+    }
   }
 }
 </script>
