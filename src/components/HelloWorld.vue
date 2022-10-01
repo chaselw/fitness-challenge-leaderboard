@@ -1,38 +1,47 @@
 <template>
   <v-container>
     <h1 class="text-center">Welcome to the fitness challenge leaderboard!</h1>
-    <v-form
-        ref="form"
-        lazy-validation
-    >
-      <v-text-field
-          v-model="newGoalTitle"
-          class="small"
-          label="New Goal Title"
-          required
-      ></v-text-field>
-
-      <v-text-field
-          v-model="newGoalDesc"
-          label="Description"
-          required
-      ></v-text-field>
-
-      <v-btn
-          :disabled="!validInput"
-          color="success"
-          class="mr-4"
-          @click="addNewRule"
+    <v-row justify="center">
+      <v-col
+          cols="12"
+          sm="10"
+          md="8"
+          lg="6"
       >
-        Create Goal
-      </v-btn>
-    </v-form>
-    <h2 class="text-center">Your Goals</h2>
-    <goal-card
-        v-for="(goal, index) in goals"
-        :key="index"
-        :goal="goal"
-    />
+        <v-form
+            ref="form"
+            lazy-validation
+        >
+          <v-text-field
+              v-model="newGoalTitle"
+              label="New Goal Title"
+              required
+          ></v-text-field>
+
+          <v-text-field
+              v-model="newGoalDesc"
+              class="pt-0"
+              label="Description"
+              required
+          ></v-text-field>
+
+          <v-btn
+              :disabled="!validInput"
+              color="success"
+              class="mr-4"
+              @click="addNewRule"
+          >
+            Create Goal
+          </v-btn>
+        </v-form>
+        <h2 class="text-center">Your Goals</h2>
+        <goal-card
+            v-for="(goal, index) in goals"
+            :key="index"
+            :goal="goal"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
