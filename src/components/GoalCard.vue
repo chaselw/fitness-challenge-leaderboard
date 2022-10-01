@@ -6,10 +6,10 @@
             cols="8"
         >
           <v-card-title>
-            {{ goal.title }}
+            {{ goalTitle }}
           </v-card-title>
           <v-card-subtitle>
-            {{ goal.description }}
+            {{ goalDescription }}
           </v-card-subtitle>
         </v-col>
         <v-col
@@ -59,6 +59,7 @@
 
         <v-btn
             :disabled="!validInput"
+            :loading="loading"
             color="success"
             class="mr-4"
             @click="updateGoal"
@@ -71,8 +72,9 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {GET_GOALS} from "@/store/get-types";
+import {UPDATE_GOAL} from "@/store/action-types";
 
 export default {
   name: 'GoalCard',
@@ -87,6 +89,10 @@ export default {
   data () {
     return {
       editing: false,
+      goal: {},
+      goalTitle: '',
+      goalDescription: '',
+      loading: false
     }
   },
 
@@ -97,17 +103,33 @@ export default {
     validInput () {
       return this.goalTitle && this.goalDescription
     },
-    goal () {
-      return this.goals.at(this.goalIndex)
-    }
+  },
+
+  mounted () {
+    this.populateGoal()
   },
 
   methods: {
+    ...mapActions({
+      actionUpdateGoal: UPDATE_GOAL
+    }),
     editGoal () {
       this.editing = true
     },
     updateGoal () {
+      this.loading = true
+      const goal = {
+        title: this.goalTitle,
+        description: this.goalDescription
+      }
+      this.actionUpdateGoal(this.goalIndex, goal)
       this.editing = false
+      this.loading = false
+    },
+    populateGoal () {
+      this.goal = this.goals.at(this.goalIndex)
+      this.goalTitle = this.goal.title
+      this.goalDescription = this.goal.description
     }
   }
 }
