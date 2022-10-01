@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-4 mb-4">
+  <v-card class="mt-2 mb-2">
     <div v-if="!editing">
       <v-card-title>
         {{ goalTitle }}
@@ -7,14 +7,18 @@
       <v-card-subtitle>
         {{ goalDescription }}
       </v-card-subtitle>
-      <v-btn @click="editGoal">
+      <v-btn
+          @click="editGoal"
+          elevation="0"
+          class="transparent"
+      >
         <v-icon>
           mdi-pencil
         </v-icon>
       </v-btn>
     </div>
 
-    <div v-else>
+    <div v-else class="pa-4">
       <v-form
           ref="form"
           lazy-validation
@@ -80,3 +84,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.v-icon {
+  border: none
+}
+</style>
+
