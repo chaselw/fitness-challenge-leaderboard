@@ -1,67 +1,47 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <h1>Welcome to the fitness challenge leaderboard!</h1>
-      </v-col>
-    </v-row>
+    <h1 class="text-center">Welcome to the fitness challenge leaderboard!</h1>
+    <v-form
+        ref="form"
+        lazy-validation
+    >
+      <v-text-field
+          v-model="newGoalTitle"
+          class="small"
+          label="New Goal Title"
+          required
+      ></v-text-field>
 
-    <v-row>
-      <v-col>
-        <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-        >
-          <v-text-field
-              v-model="newGoalTitle"
-              label="New Goal Title"
-              required
-          ></v-text-field>
+      <v-text-field
+          v-model="newGoalDesc"
+          label="Description"
+          required
+      ></v-text-field>
 
-          <v-text-field
-              v-model="newGoalDesc"
-              label="Description"
-              required
-          ></v-text-field>
-
-          <v-btn
-              :disabled="!validInput"
-              color="success"
-              class="mr-4"
-              @click="addNewRule"
-          >
-            Create Goal
-          </v-btn>
-        </v-form>
-      </v-col>
-    </v-row>
-
-    <v-spacer></v-spacer>
-
-    <v-row>
-      <v-col>
-        <h2 class="text-center">Goals</h2>
-        <v-card
-            v-for="(goal, index) in goals"
-            :key="index"
-            class="ma-1"
-        >
-          <v-card-title>
-            {{ goal.title}}
-          </v-card-title>
-          <v-card-subtitle>
-            {{ goal.description }}
-          </v-card-subtitle>
-        </v-card>
-      </v-col>
-    </v-row>
+      <v-btn
+          :disabled="!validInput"
+          color="success"
+          class="mr-4"
+          @click="addNewRule"
+      >
+        Create Goal
+      </v-btn>
+    </v-form>
+    <h2 class="text-center">Your Goals</h2>
+    <goal-card
+        v-for="(goal, index) in goals"
+        :key="index"
+        :goal="goal"
+    />
   </v-container>
 </template>
 
 <script>
+  import GoalCard from "@/components/GoalCard";
   export default {
     name: 'HelloWorld',
+
+    components: { GoalCard },
 
     data: () => ({
       newGoalTitle: '',
