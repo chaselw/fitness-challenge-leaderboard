@@ -2,90 +2,58 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
+        <h1>Welcome to the fitness challenge leaderboard!</h1>
       </v-col>
+    </v-row>
 
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
+    <v-row>
+      <v-col>
+        <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+        >
+          <v-text-field
+              v-model="newGoalTitle"
+              label="New Goal Title"
+              required
+          ></v-text-field>
 
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
-        </p>
-      </v-col>
+          <v-text-field
+              v-model="newGoalDesc"
+              label="Description"
+              required
+          ></v-text-field>
 
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
+          <v-btn
+              :disabled="!validInput"
+              color="success"
+              class="mr-4"
+              @click="addNewRule"
           >
-            {{ next.text }}
-          </a>
-        </v-row>
+            Create Goal
+          </v-btn>
+        </v-form>
       </v-col>
+    </v-row>
 
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
+    <v-spacer></v-spacer>
 
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
+    <v-row>
+      <v-col>
+        <h2 class="text-center">Goals</h2>
+        <v-card
+            v-for="(goal, index) in goals"
+            :key="index"
+            class="ma-1"
+        >
+          <v-card-title>
+            {{ goal.title}}
+          </v-card-title>
+          <v-card-subtitle>
+            {{ goal.description }}
+          </v-card-subtitle>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -96,56 +64,30 @@
     name: 'HelloWorld',
 
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
+      newGoalTitle: '',
+      newGoalDesc: '',
+      goals: []
     }),
+
+    computed: {
+      validInput () {
+        return this.newGoalTitle && this.newGoalDesc
+      }
+    },
+
+    methods: {
+      addNewRule () {
+        const newGoal = {
+          title: this.newGoalTitle,
+          description: this.newGoalDesc
+        }
+        this.goals.push(newGoal)
+        this.resetInputs()
+      },
+      resetInputs () {
+        this.newGoalTitle = ''
+        this.newGoalDesc = ''
+      }
+    }
   }
 </script>

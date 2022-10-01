@@ -5,7 +5,9 @@
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
+      <div id="header_logo"
+          class="d-flex align-center"
+      >
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
