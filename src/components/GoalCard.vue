@@ -25,15 +25,15 @@
               mdi-pencil
             </v-icon>
           </v-btn>
-<!--          <v-btn-->
-<!--              @click="removeGoal"-->
-<!--              elevation="0"-->
-<!--              class="transparent pa-1 mr-2"-->
-<!--          >-->
-<!--            <v-icon>-->
-<!--              mdi-close-->
-<!--            </v-icon>-->
-<!--          </v-btn>-->
+          <v-btn
+              @click="removeGoal"
+              elevation="0"
+              class="transparent pa-1 mr-2"
+          >
+            <v-icon>
+              mdi-close
+            </v-icon>
+          </v-btn>
         </v-col>
       </v-row>
 
@@ -74,7 +74,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import {GET_GOALS} from "@/store/get-types";
-import {UPDATE_GOAL} from "@/store/action-types";
+import {REMOVE_GOAL, UPDATE_GOAL} from "@/store/action-types";
 
 export default {
   name: 'GoalCard',
@@ -111,7 +111,8 @@ export default {
 
   methods: {
     ...mapActions({
-      actionUpdateGoal: UPDATE_GOAL
+      actionUpdateGoal: UPDATE_GOAL,
+      actionRemoveGoal: REMOVE_GOAL
     }),
     editGoal () {
       this.editing = true
@@ -123,6 +124,12 @@ export default {
         description: this.goalDescription
       }
       this.actionUpdateGoal(this.goalIndex, goal)
+      this.editing = false
+      this.loading = false
+    },
+    removeGoal () {
+      this.loading = true
+      this.actionRemoveGoal(this.goalIndex)
       this.editing = false
       this.loading = false
     },

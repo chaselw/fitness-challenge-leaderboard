@@ -37,7 +37,7 @@
         <h2 class="text-center">Your Goals</h2>
         <goal-card
             v-for="(goal, index) in goals"
-            :key="index"
+            :key="goal.title"
             :goalIndex="index"
         />
       </v-col>
