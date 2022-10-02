@@ -29,7 +29,7 @@
               :disabled="!validInput"
               color="success"
               class="mr-4"
-              @click="addNewRule"
+              @click="addNewGoal"
           >
             Create Goal
           </v-btn>
@@ -37,11 +37,28 @@
         <h2 class="text-center">Your Goals</h2>
         <goal-card
             v-for="(goal, index) in goals"
-            :key="goal.title"
+            :key="goal.id"
             :goalIndex="index"
         />
       </v-col>
     </v-row>
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+    >
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            color="blue"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+        >
+          Ok
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -50,14 +67,20 @@
   import {mapActions, mapGetters} from "vuex";
   import {ADD_GOAL} from "@/store/action-types";
   import {GET_GOALS} from "@/store/get-types";
+  import {addDoc, collection} from "firebase/firestore";
+  import db from "@/FirebaseDb";
+  import generateUUID from "@/utilities/utilities";
   export default {
     name: 'CreateEditGoals',
 
     components: { GoalCard },
 
     data: () => ({
+      snackbar: false,
+      snackbarText: '',
       newGoalTitle: '',
       newGoalDesc: '',
+      timeout: 2000
     }),
 
     computed: {
@@ -73,11 +96,20 @@
       ...mapActions({
         addGoal: ADD_GOAL
       }),
-      addNewRule () {
+      async addNewGoal () {
         const newGoal = {
+          id: generateUUID(),
           title: this.newGoalTitle,
           description: this.newGoalDesc
         }
+        await addDoc(collection(db, 'goals'), newGoal).then(() => {
+          this.snackbarText = 'Goal created'
+          this.snackbar = true
+        }).catch((error) => {
+          console.log(error);
+          this.snackbarText = 'Goal creation failed ;('
+          this.snackbar = true
+        });
         this.addGoal(newGoal)
         this.resetInputs()
       },

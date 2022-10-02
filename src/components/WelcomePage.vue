@@ -16,7 +16,8 @@ export default {
         description: 'test Description',
         user: 'test user'
       }
-      await addDoc(collection(db, 'goals'), goal).then(() => {
+      await addDoc(collection(db, 'goals'), goal).then((docRef) => {
+        console.log(docRef.id)
         alert("Goal added");
       }).catch((error) => {
         console.log(error);

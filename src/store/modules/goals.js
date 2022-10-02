@@ -21,7 +21,7 @@ const actions = {
   },
   [actionTypes.REMOVE_GOAL] (context, index) {
     context.commit(mutationTypes.REMOVE_GOAL, index)
-  }
+  } //TODO set goals on load
 }
 
 const mutations = {
