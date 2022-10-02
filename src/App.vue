@@ -12,23 +12,24 @@
       <div id="header_logo"
            class="d-flex align-center"
       >
-        <v-icon
-            class="shrink mr-2"
-            contain
-            transition="scale-transition"
-            width="40"
-        >
-          mdi-weight-lifter
-        </v-icon>
-
-        <v-icon
-            class="shrink mt-1 hidden-sm-and-down"
-            contain
-            min-width="40"
-            width="40"
-        >
-          mdi-trophy
-        </v-icon>
+        <router-link to="/" class="router-link">
+          <v-icon
+              class="shrink mr-2"
+              contain
+              transition="scale-transition"
+              width="40"
+          >
+            mdi-weight-lifter
+          </v-icon>
+          <v-icon
+              class="shrink mt-1 hidden-sm-and-down"
+              contain
+              min-width="40"
+              width="40"
+          >
+            mdi-trophy
+          </v-icon>
+        </router-link>
       </div>
     </v-app-bar>
 
@@ -45,40 +46,43 @@
             v-model="group"
             active-class="deep-blue--text text--accent-4"
         >
-          <v-list-item>
-            <v-list-item-title>Foo</v-list-item-title>
-          </v-list-item>
+          <router-link to="/" class="router-link">
+            <v-list-item>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-title>Bar</v-list-item-title>
-          </v-list-item>
+          <router-link to="/user/goals" class="router-link">
+            <v-list-item>
+               <v-list-item-title>Goals</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
-          </v-list-item>
+          <router-link to="/groups" class="router-link">
+            <v-list-item>
+              <v-list-item-title>Groups</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
-          </v-list-item>
+          <router-link to="/leader-board" class="router-link">
+            <v-list-item>
+              <v-list-item-title>Leader Board</v-list-item-title>
+            </v-list-item>
+          </router-link>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
     <v-main>
-      <HelloWorld/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
-
-  components: {
-    HelloWorld,
-  },
 
   data: () => ({
     drawer: false,
@@ -92,3 +96,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.router-link{
+  text-decoration: none;
+}
+</style>

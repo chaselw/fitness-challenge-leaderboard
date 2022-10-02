@@ -51,7 +51,7 @@
   import {ADD_GOAL} from "@/store/action-types";
   import {GET_GOALS} from "@/store/get-types";
   export default {
-    name: 'HelloWorld',
+    name: 'CreateEditGoals',
 
     components: { GoalCard },
 

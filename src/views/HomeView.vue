@@ -1,12 +1,14 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <welcome-page />
   </div>
 </template>
 
 <script>
 
+import WelcomePage from "@/components/WelcomePage";
 export default {
   name: 'HomeView',
+  components: {WelcomePage},
 }
 </script>
