@@ -6,10 +6,10 @@
             cols="8"
         >
           <v-card-title>
-            {{ goalTitle }}
+            {{ goal.title }}
           </v-card-title>
           <v-card-subtitle>
-            {{ goalDescription }}
+            {{ goal.description }}
           </v-card-subtitle>
         </v-col>
         <v-col
@@ -80,8 +80,8 @@ export default {
   name: 'GoalCard',
 
   props: {
-    goalIndex: {
-      type: Number,
+    goal: {
+      type: Object,
       required: true
     }
   },
@@ -89,9 +89,8 @@ export default {
   data () {
     return {
       editing: false,
-      goal: {},
-      goalTitle: '',
-      goalDescription: '',
+      goalTitle: this.goal.title,
+      goalDescription: this.goal.description,
       loading: false
     }
   },
@@ -105,10 +104,6 @@ export default {
     },
   },
 
-  mounted () {
-    this.populateGoal()
-  },
-
   methods: {
     ...mapActions({
       actionUpdateGoal: UPDATE_GOAL,
@@ -119,24 +114,20 @@ export default {
     },
     updateGoal () {
       this.loading = true
-      const goal = {
+      const updatedGoal = {
+        id: this.goal.id,
         title: this.goalTitle,
         description: this.goalDescription
       }
-      this.actionUpdateGoal(this.goalIndex, goal)
+      this.actionUpdateGoal(updatedGoal)
       this.editing = false
       this.loading = false
     },
     removeGoal () {
       this.loading = true
-      this.actionRemoveGoal(this.goalIndex)
+      this.actionRemoveGoal(this.goal)
       this.editing = false
       this.loading = false
-    },
-    populateGoal () {
-      this.goal = this.goals.at(this.goalIndex)
-      this.goalTitle = this.goal.title
-      this.goalDescription = this.goal.description
     }
   }
 }

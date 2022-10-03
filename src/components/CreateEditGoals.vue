@@ -36,9 +36,9 @@
         </v-form>
         <h2 class="text-center">Your Goals</h2>
         <goal-card
-            v-for="(goal, index) in goals"
+            v-for="(goal) in goals"
             :key="goal.id"
-            :goalIndex="index"
+            :goal="goal"
         />
       </v-col>
     </v-row>

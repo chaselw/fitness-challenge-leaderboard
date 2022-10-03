@@ -16,8 +16,8 @@ const actions = {
     // TODO verify and send message if goal already exists
     context.commit(mutationTypes.ADD_GOAL, goal)
   },
-  [actionTypes.UPDATE_GOAL] (context, index, goal) {
-    context.commit(mutationTypes.UPDATE_GOAL, index, goal)
+  [actionTypes.UPDATE_GOAL] (context, updatedGoal) {
+    context.commit(mutationTypes.UPDATE_GOAL, updatedGoal)
   },
   [actionTypes.REMOVE_GOAL] (context, index) {
     context.commit(mutationTypes.REMOVE_GOAL, index)
@@ -28,8 +28,9 @@ const mutations = {
   [mutationTypes.ADD_GOAL] (state, goal) {
     state.goals.push(goal)
   },
-  [mutationTypes.UPDATE_GOAL] (state, index, goal) {
-    Vue.set(state.goals, index, goal)
+  [mutationTypes.UPDATE_GOAL] (state, updatedGoal) {
+    const goalIndex = state.goals.findIndex(goal => goal.id === updatedGoal.id)
+    Vue.set(state.goals, goalIndex, updatedGoal)
   },
   [mutationTypes.REMOVE_GOAL] (state, index) {
     state.goals.splice(index,1)
