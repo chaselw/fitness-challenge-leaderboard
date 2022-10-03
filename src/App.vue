@@ -81,6 +81,9 @@
 
 <script>
 
+import {mapActions} from "vuex";
+import {SET_GOALS} from "@/store/action-types";
+
 export default {
   name: 'App',
 
@@ -88,6 +91,17 @@ export default {
     drawer: false,
     group: null,
   }),
+
+  mounted () {
+    const username = 'chase-test-user' //TODO make this the actual username
+    this.setGoals(username)
+  },
+
+  methods: {
+    ...mapActions({
+      setGoals: SET_GOALS
+    })
+  },
 
   watch: {
     group () {

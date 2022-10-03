@@ -2,6 +2,8 @@ import * as actionTypes from '@/store/action-types'
 import * as getTypes from '@/store/get-types'
 import * as mutationTypes from '@/store/mutation-types'
 import Vue from "vue";
+import {doc, getDoc} from "firebase/firestore";
+import db from "@/FirebaseDb";
 
 const state = {
   goals: []
@@ -21,7 +23,16 @@ const actions = {
   },
   [actionTypes.REMOVE_GOAL] (context, index) {
     context.commit(mutationTypes.REMOVE_GOAL, index)
-  } //TODO set goals on load
+  },
+  async [actionTypes.SET_GOALS] (context, username) {
+    const userGoalsDocRef = doc(db, 'goals', username);
+    const docSnap = await getDoc(userGoalsDocRef);
+    if (docSnap.exists()) {
+      context.commit(mutationTypes.SET_GOALS, docSnap.data().goals)
+    } else {
+      console.log('Error setting goals for username: ', username);
+    }
+  },
 }
 
 const mutations = {
@@ -34,6 +45,9 @@ const mutations = {
   },
   [mutationTypes.REMOVE_GOAL] (state, index) {
     state.goals.splice(index,1)
+  },
+  [mutationTypes.SET_GOALS](state, userGoals) {
+    state.goals = userGoals
   }
 }
 
