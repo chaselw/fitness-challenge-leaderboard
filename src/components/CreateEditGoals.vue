@@ -29,6 +29,7 @@
               :disabled="!validInput"
               color="success"
               class="mr-4"
+              :loading="loading"
               @click="addNewGoal"
           >
             Create Goal
@@ -67,8 +68,6 @@
   import {mapActions, mapGetters} from "vuex";
   import {ADD_GOAL} from "@/store/action-types";
   import {GET_GOALS} from "@/store/get-types";
-  import {addDoc, collection} from "firebase/firestore";
-  import db from "@/FirebaseDb";
   import generateUUID from "@/utilities/utilities";
   export default {
     name: 'CreateEditGoals',
@@ -76,6 +75,7 @@
     components: { GoalCard },
 
     data: () => ({
+      loading: false,
       snackbar: false,
       snackbarText: '',
       newGoalTitle: '',
@@ -97,21 +97,16 @@
         addGoal: ADD_GOAL
       }),
       async addNewGoal () {
+        this.loading = true
+        const username = 'chase-test-user'
         const newGoal = {
           id: generateUUID(),
           title: this.newGoalTitle,
           description: this.newGoalDesc
         }
-        await addDoc(collection(db, 'goals'), newGoal).then(() => {
-          this.snackbarText = 'Goal created'
-          this.snackbar = true
-        }).catch((error) => {
-          console.log(error);
-          this.snackbarText = 'Goal creation failed ;('
-          this.snackbar = true
-        });
-        this.addGoal(newGoal)
+        await this.addGoal({newGoal: newGoal, username: username})
         this.resetInputs()
+        this.loading = false
       },
       resetInputs () {
         this.newGoalTitle = ''

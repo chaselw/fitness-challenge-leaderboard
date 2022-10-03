@@ -2,7 +2,7 @@ import * as actionTypes from '@/store/action-types'
 import * as getTypes from '@/store/get-types'
 import * as mutationTypes from '@/store/mutation-types'
 import Vue from "vue";
-import {doc, getDoc} from "firebase/firestore";
+import {setDoc, arrayUnion, doc, getDoc, arrayRemove, updateDoc} from "firebase/firestore";
 import db from "@/FirebaseDb";
 
 const state = {
@@ -14,15 +14,38 @@ const getters = {
 }
 
 const actions = {
-  [actionTypes.ADD_GOAL] (context, goal) {
-    // TODO verify and send message if goal already exists
-    context.commit(mutationTypes.ADD_GOAL, goal)
+  async [actionTypes.ADD_GOAL] (context, { newGoal, username}) {
+    await setDoc(doc(db, 'goals', username),
+        { goals: arrayUnion(newGoal) },
+        { merge: true }).then(() => {
+          context.commit(mutationTypes.ADD_GOAL, newGoal)
+        }).catch((error) => {
+          console.log(error);
+        })
   },
-  [actionTypes.UPDATE_GOAL] (context, updatedGoal) {
-    context.commit(mutationTypes.UPDATE_GOAL, updatedGoal)
+  async [actionTypes.UPDATE_GOAL] (context, { updatedGoal, username}) {
+    const updatedGoals = context.state.goals.map(goal => {
+      if (goal.id === updatedGoal.id) {
+        return { ...goal,
+          title: updatedGoal.title,
+          description: updatedGoal.description
+        }
+      }
+      return goal
+    })
+    await updateDoc(doc(db, 'goals', username), { goals: updatedGoals }).then(() => {
+      context.commit(mutationTypes.UPDATE_GOAL, updatedGoal)
+    }).catch((error) => {
+      console.log(error);
+    })
   },
-  [actionTypes.REMOVE_GOAL] (context, index) {
-    context.commit(mutationTypes.REMOVE_GOAL, index)
+  async [actionTypes.REMOVE_GOAL] (context, {goal, username}) {
+    await updateDoc(doc(db, 'goals', username),
+        { goals: arrayRemove(goal) }).then(() => {
+          context.commit(mutationTypes.REMOVE_GOAL, goal.id)
+        }).catch((error) => {
+          console.log(error);
+        })
   },
   async [actionTypes.SET_GOALS] (context, username) {
     const userGoalsDocRef = doc(db, 'goals', username);
@@ -43,8 +66,9 @@ const mutations = {
     const goalIndex = state.goals.findIndex(goal => goal.id === updatedGoal.id)
     Vue.set(state.goals, goalIndex, updatedGoal)
   },
-  [mutationTypes.REMOVE_GOAL] (state, index) {
-    state.goals.splice(index,1)
+  [mutationTypes.REMOVE_GOAL] (state, goalId) {
+    const goalIndex = state.goals.findIndex(goal => goal.id === goalId)
+    state.goals.splice(goalIndex,1)
   },
   [mutationTypes.SET_GOALS](state, userGoals) {
     state.goals = userGoals

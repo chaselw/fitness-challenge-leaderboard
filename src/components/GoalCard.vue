@@ -114,19 +114,20 @@ export default {
     },
     updateGoal () {
       this.loading = true
+      const username = 'chase-test-user'
       const updatedGoal = {
         id: this.goal.id,
         title: this.goalTitle,
         description: this.goalDescription
       }
-      this.actionUpdateGoal(updatedGoal)
+      this.actionUpdateGoal({updatedGoal: updatedGoal, username: username})
       this.editing = false
       this.loading = false
     },
     removeGoal () {
       this.loading = true
-      this.actionRemoveGoal(this.goal)
-      this.editing = false
+      const username = 'chase-test-user'
+      this.actionRemoveGoal({goal: this.goal, username: username})
       this.loading = false
     }
   }
