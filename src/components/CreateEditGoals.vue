@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="text-center">Welcome to the fitness challenge leaderboard!</h1>
+    <h1 class="text-center">Goals</h1>
     <v-row justify="center">
       <v-col
           cols="12"
@@ -35,7 +35,7 @@
             Create Goal
           </v-btn>
         </v-form>
-        <h2 class="text-center">Your Goals</h2>
+        <h2 class="text-center">Your Current Goals</h2>
         <goal-card
             v-for="(goal) in goals"
             :key="goal.id"

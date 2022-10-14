@@ -3,7 +3,7 @@ import * as getTypes from '@/store/get-types'
 import * as mutationTypes from '@/store/mutation-types'
 import Vue from "vue";
 import {setDoc, arrayUnion, doc, getDoc, arrayRemove, updateDoc} from "firebase/firestore";
-import db from "@/FirebaseDb";
+import { db } from "@/FirebaseDb";
 
 const state = {
   goals: []

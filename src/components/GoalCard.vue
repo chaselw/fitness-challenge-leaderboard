@@ -36,8 +36,6 @@
           </v-btn>
         </v-col>
       </v-row>
-
-
     </div>
 
     <div v-else class="pa-4">
